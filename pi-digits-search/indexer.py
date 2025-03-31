@@ -4,7 +4,7 @@ import os
 import sys
 
 # Load words from CSV
-words = pl.read_csv("words.csv", has_header=False, new_columns=["word"])
+words = pl.read_csv("letters.csv", has_header=False, new_columns=["word"])
 
 
 # Define optimized functions directly instead of importing
@@ -25,7 +25,7 @@ def load_pi_digits(file_path, max_digits=None):
 
 def ascii_to_base32(text):
     """Convert text to base32 representation with special character mapping."""
-    mapping = {"!": "2", "?": "3", ",": "4", ".": "5", "-": "6", " ": "7"}
+    mapping = {"!": "2", "?": "3", ",": "4", ".": "5", "-": "6", ";": "7"}
     formatted_text = text.upper()
     return "".join(mapping.get(c, c) for c in formatted_text)
 
