@@ -12,7 +12,7 @@ def index_to_cipher(index_data):
     
     for item in index_data:
         if isinstance(item[0], int):  # Direct sequence entry like [2820,"hello","HELLO",1060582,5,1]
-            position = item[0]
+            position = item[3]
             length = item[4]
             result.append([position,'-', length])
         else:  # Nested list like [[987,"z","Z",35,1,1],[81,"c","C",19,1,1]]

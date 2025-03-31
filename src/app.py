@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 from src.search_service import process_search_request
 from src.index_to_cipher import index_to_cipher
+from src.decipher import decipher,validate_input_string
 import logging
 import re
 
@@ -13,6 +14,9 @@ app = FastAPI()
 
 
 class SearchRequest(BaseModel):
+    input_string: str
+
+class DecipherRequest(BaseModel):
     input_string: str
 
 
@@ -58,6 +62,20 @@ async def search_for_string(request: SearchRequest, raw_request: Request):
         logger.error(f"Error processing search: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/decipher")
+async def decipher_string(request: DecipherRequest):
+    try:
+        if not validate_input_string(request.input_string):
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid input string. Please provide a valid string.",
+            )
+        deciphered_string = decipher(request.input_string)
+        return {"deciphered_string": deciphered_string}
+    except Exception as e:
+        logger.error(f"Error deciphering string: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+    
 
 # Add middleware to log all requests
 @app.middleware("http")
