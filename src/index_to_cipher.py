@@ -18,7 +18,7 @@ def index_to_cipher(index_data):
         else:  # Nested list like [[987,"z","Z",35,1,1],[81,"c","C",19,1,1]]
             nested_result = []
             for entry in item:
-                position = entry[0]
+                position = entry[3]
                 length = entry[4]
                 nested_result.append([position,'-', length])
             result.append(nested_result)
